@@ -19,6 +19,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 } else
 {
+    app.UseExceptionHandler("/GlobalError");
     app.UseStatusCodePagesWithReExecute("/Error/{0}");
 }
 
