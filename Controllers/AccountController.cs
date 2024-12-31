@@ -49,6 +49,23 @@ namespace EmployeeManagementSystem.Controllers
             return View(model);
         }
 
+        //[HttpPost]
+        //[HttpGet]
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsEmailInUse(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if(user == null)
+            {
+                return Json(true);
+            } else
+            {
+                return Json($"Email {email} is already in use");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -66,21 +83,22 @@ namespace EmployeeManagementSystem.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> Login(LoginViewModel model/*, string returnUrl*/)
         {
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    {
-                        // return LocalRedirect(returnUrl);
-                        return Redirect(returnUrl);
-                    } else
-                    {
-                        return RedirectToAction("Index", "Employee");
-                    }
+                    //if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    //{
+                    //    // return LocalRedirect(returnUrl);
+                    //    return Redirect(returnUrl);
+                    //} else
+                    //{
+                    //    return RedirectToAction("Index", "Employee");
+                    //}
+                    return RedirectToAction("Index", "Employee");
                 }
                 
                 ModelState.AddModelError(string.Empty, "Invalid Attempt");
