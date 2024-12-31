@@ -73,8 +73,9 @@ namespace EmployeeManagementSystem.Controllers
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
+                        // return LocalRedirect(returnUrl);
                         return Redirect(returnUrl);
                     } else
                     {
