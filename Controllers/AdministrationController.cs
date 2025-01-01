@@ -43,5 +43,12 @@ namespace EmployeeManagementSystem.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult ListRole()
+        {
+            var roles = roleManager.Roles;
+            return View(roles);
+        }
     }
 }
