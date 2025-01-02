@@ -31,9 +31,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Create">Create</a>
                         </li>
 
-                        @if(signInManager.IsSignedIn(User) && User.IsInRole("Admin")){
-                            <li class="nav-item">
-                               <a class="nav-link text-dark" asp-area="" asp-controller="Administration" asp-action="ListRole">Manage Roles</a>
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                               <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Manage
+                               </a>
+                               <ul class="dropdown-menu">
+                                   <li><a class="dropdown-item" asp-action="ListUsers" asp-controller="Administration">Users</a></li>
+                                   <li><a class="dropdown-item" asp-action="ListRole" asp-controller="Administration">Roles</a></li>
+                               </ul>
                             </li>
                         }
                     </ul>
