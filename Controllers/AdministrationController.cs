@@ -61,16 +61,17 @@ namespace EmployeeManagementSystem.Controllers
 
             if(role == null)
             {
-                ViewBag.ErrorMessage = $"Role with ID = {id} cannot be found";
+                ViewBag.ErrorMessgae = $"Role with ID = {id} can't be found";
                 return View("NotFound");
             }
+
             var model = new EditRoleViewModel
             {
                 Id = role.Id,
                 RoleName = role.Name
             };
 
-            foreach(var user in userManager.Users)
+            foreach(var user in userManager.Users.ToList())
             {
                 if(await userManager.IsInRoleAsync(user, role.Name))
                 {
@@ -86,29 +87,27 @@ namespace EmployeeManagementSystem.Controllers
         {
             var role = await roleManager.FindByIdAsync(model.Id);
 
-            if (role == null)
+            if(role == null)
             {
-                ViewBag.ErrorMessage = $"Role with Id = {model.Id} cannot be found";
+                ViewBag.ErrorMessage = $"Role with ID = {model.Id} can't be found";
                 return View("NotFound");
             }
             else
             {
                 role.Name = model.RoleName;
-
                 var result = await roleManager.UpdateAsync(role);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("ListRoles");
+                    return RedirectToAction("ListRole");
                 }
-
-                foreach (var error in result.Errors)
+                foreach(var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-
                 return View(model);
             }
         }
+
     }
 }
