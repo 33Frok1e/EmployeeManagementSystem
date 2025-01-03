@@ -129,7 +129,7 @@ namespace EmployeeManagementSystem.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Employee");
+                    return RedirectToAction("ListRole");
                 } 
                 foreach(IdentityError error in result.Errors)
                 {
@@ -199,6 +199,32 @@ namespace EmployeeManagementSystem.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
                 return View(model);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {id} can't be found";
+                return View("NotFound");
+            }
+            else
+            {
+                var result = await roleManager.DeleteAsync(role);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListRole");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View("ListRole");
             }
         }
 
