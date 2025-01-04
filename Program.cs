@@ -30,6 +30,11 @@ builder.Services.AddAuthorization(options =>
         policy => policy.RequireClaim("Admin"));
 });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
