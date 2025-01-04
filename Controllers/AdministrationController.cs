@@ -9,6 +9,7 @@ using System.Security.Claims;
 
 namespace EmployeeManagementSystem.Controllers
 {
+    //[Authorize(Policy = "AdminRolePolicy")]
     [Authorize(Roles = "Admin")]
     public class AdministrationController : Controller
     {
@@ -152,6 +153,7 @@ namespace EmployeeManagementSystem.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
@@ -180,6 +182,7 @@ namespace EmployeeManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
             var role = await roleManager.FindByIdAsync(model.Id);
@@ -207,6 +210,7 @@ namespace EmployeeManagementSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "DeleteRolePolicy")]
         public async Task<IActionResult> DeleteRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);

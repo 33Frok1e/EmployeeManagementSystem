@@ -18,6 +18,18 @@ builder.Services.AddMvc(config =>
     config.Filters.Add(new AuthorizeFilter(policy));
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("DeleteRolePolicy",
+        policy => policy.RequireClaim("Delete Role"));
+
+    options.AddPolicy("EditRolePolicy",
+        policy => policy.RequireClaim("Edit Role"));
+
+    options.AddPolicy("AdminRolePolicy",
+        policy => policy.RequireClaim("Admin"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
